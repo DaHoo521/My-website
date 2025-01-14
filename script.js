@@ -4,23 +4,33 @@ async function fetchPosts() {
       const posts = await response.json();
   
       let postsHtml = '';
-      posts.forEach(post => {
-        const imageUrl = post._embedded && post._embedded['wp:featuredmedia'] 
-                          ? post._embedded['wp:featuredmedia'][0].source_url 
-                          : 'default-image.jpg';
+      posts.forEach((post, index) => {
+        if (index === 0) {
+          // Special layout for the first post (showing full content)
+          postsHtml += `
+            <div class="col-12 mb-5 text-start">
+              <h1>${post.title.rendered}</h1>
+              <div>${post.content.rendered}</div>
+            </div>
+          `;
+        } else {
+          // Default card layout for other posts (no "Read More" link)
+          const imageUrl = post._embedded && post._embedded['wp:featuredmedia'] 
+                            ? post._embedded['wp:featuredmedia'][0].source_url 
+                            : 'default-image.jpg';
   
-        postsHtml += `
-          <div class="col-md-4">
-            <div class="card mb-4">
-              <img src="${imageUrl}" class="card-img-top" alt="${post.title.rendered}">
-              <div class="card-body">
-                <h5 class="card-title">${post.title.rendered}</h5>
-                <p class="card-text">${post.excerpt.rendered}</p>
-                <a href="${post.link}" class="btn btn-primary">Read More</a>
+          postsHtml += `
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <img src="${imageUrl}" class="card-img-top" alt="${post.title.rendered}">
+                <div class="card-body">
+                  <h5 class="card-title">${post.title.rendered}</h5>
+                  <p class="card-text">${post.excerpt.rendered}</p>
+                </div>
               </div>
             </div>
-          </div>
-        `;
+          `;
+        }
       });
   
       document.getElementById('posts').innerHTML = postsHtml;
