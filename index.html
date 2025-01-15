@@ -80,7 +80,7 @@
   </script> 
 
 <script>
-  fetch('https://yourname.epizy.com/wp-json/wp/v2/posts')
+  fetch('https://artportfolio.atwebpages.com/wp-json/wp/v2/posts')
     .then(response => response.json())
     .then(data => {
       let cardContainer = document.getElementById('card-container');
@@ -90,6 +90,7 @@
         let card = `
           <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
+              <img src="${post.featured_media_url}" class="card-img-top" alt="${post.title.rendered}">
               <div class="card-body">
                 <h5 class="card-title">${post.title.rendered}</h5>
                 <p class="card-text">${post.excerpt.rendered}</p>
