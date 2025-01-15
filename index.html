@@ -84,7 +84,8 @@
   const carouselCategoryId = 5; // Carousel category ID
 
   // Fetch and display the featured post
-  fetch(`https://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${featuredCategoryId}&per_page=1`)
+  fetch('https://cors-anywhere.herokuapp.com/https://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${featuredCategoryId}&per_page=1')
+    
     .then(response => response.json())
     .then(data => {
       let cardContainer = document.getElementById('card-container');
