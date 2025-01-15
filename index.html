@@ -92,7 +92,7 @@
       let firstPost = data[0];
       let firstPostExcerpt = firstPost.excerpt.rendered.replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
       let firstPostContent = `
-        <div class="mb-5" style="text-align: center;">
+        <div class="mb-5" style="text-center">
           <h3 class="text-primary">${firstPost.title.rendered}</h3>
           <p class="text-muted">${firstPostExcerpt}</p>
         </div>
