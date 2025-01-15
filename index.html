@@ -99,7 +99,7 @@
   const cardsCategoryId = 1; // Cards category ID
 
   // Fetch and display the featured post
-  fetch(`http://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${featuredCategoryId}&per_page=1`)
+  fetch(`https://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${featuredCategoryId}&per_page=1`)
     .then(response => response.json())
     .then(data => {
       let cardContainer = document.getElementById('card-container');
@@ -123,7 +123,7 @@
     .catch(error => console.error('Error fetching featured post:', error));
 
   // Fetch and display the remaining posts as cards
-  fetch(`http://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${cardsCategoryId}`)
+  fetch(`https://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${cardsCategoryId}`)
     .then(response => response.json())
     .then(data => {
       let cardContainer = document.getElementById('card-container');
