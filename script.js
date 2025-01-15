@@ -1,18 +1,18 @@
 async function fetchPosts() {
   try {
-    const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed'));
-    
+    const response = await fetch('https://jsonproxy.io/api/v1?url=' + encodeURIComponent('https://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed'));
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
 
-    if (!data.contents) {
+    if (!data) {
       throw new Error("No content received from the API");
     }
 
-    const posts = JSON.parse(data.contents); // Parse the fetched content
+    const posts = data; // JSONProxy directly returns parsed content
 
     let postsHtml = '';
     posts.forEach((post, index) => {
