@@ -1,20 +1,20 @@
 async function fetchPosts() {
     try {
-      const response = await fetch('http://my-bootstrap-cms.local/wp-json/wp/v2/posts?_embed');
+      const response = await fetch('https://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed');
       const posts = await response.json();
   
       let postsHtml = '';
       posts.forEach((post, index) => {
         if (index === 0) {
-          // Special layout for the first post (showing full content)
+          // Special layout for the first post (without image)
           postsHtml += `
-            <div class="col-12 mb-5 text-start">
+            <div class="col-12 mb-5 text-center">
               <h1>${post.title.rendered}</h1>
               <div>${post.content.rendered}</div>
             </div>
           `;
         } else {
-          // Default card layout for other posts (no "Read More" link)
+          // Default card layout for other posts
           const imageUrl = post._embedded && post._embedded['wp:featuredmedia'] 
                             ? post._embedded['wp:featuredmedia'][0].source_url 
                             : 'default-image.jpg';
