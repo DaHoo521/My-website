@@ -1,22 +1,23 @@
 async function fetchPosts() {
   try {
-    const response = await fetch('https://jsonproxy.io/api/v1?url=' + encodeURIComponent('https://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed'));
+    // Use your Vercel CORS proxy to fetch data from the WordPress REST API
+    const response = await fetch(
+      'https://cors-proxy-eerucsfdo-normans-projects-5f26c8a0.vercel.app?url=' + 
+      encodeURIComponent('https://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed')
+    );
 
+    // Check if the response status is OK
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    if (!data) {
-      throw new Error("No content received from the API");
-    }
-
-    const posts = data; // JSONProxy directly returns parsed content
+    // Parse the JSON response
+    const posts = await response.json();
 
     let postsHtml = '';
     posts.forEach((post, index) => {
       if (index === 0) {
+        // Special layout for the first post (no image)
         postsHtml += `
           <div class="col-12 mb-5 text-center">
             <h1>${post.title.rendered}</h1>
@@ -24,6 +25,7 @@ async function fetchPosts() {
           </div>
         `;
       } else {
+        // Default card layout for other posts
         const imageUrl = post._embedded && post._embedded['wp:featuredmedia']
                           ? post._embedded['wp:featuredmedia'][0].source_url
                           : 'default-image.jpg';
@@ -42,10 +44,14 @@ async function fetchPosts() {
       }
     });
 
+    // Inject the generated HTML into the #posts container
     document.getElementById('posts').innerHTML = postsHtml;
   } catch (error) {
+    // Log any errors that occur during the fetch or processing
     console.error('Error fetching posts:', error);
   }
 }
 
+// Fetch posts on page load
 fetchPosts();
+
