@@ -94,9 +94,10 @@
   </script> 
   
 <script>
-  // Replace 'YOUR_FEATURED_CATEGORY_ID' and 'YOUR_CARDS_CATEGORY_ID' with actual category IDs
+  // Replace these with your actual category IDs
   const featuredCategoryId = 4; // Featured post category ID
-  const cardsCategoryId = 1; // Cards category ID
+  const cardsCategoryId = 1;    // Cards category ID
+  const carouselCategoryId = 5; // Carousel category ID
 
   // Fetch and display the featured post
   fetch(`https://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${featuredCategoryId}&per_page=1`)
@@ -147,8 +148,46 @@
       });
     })
     .catch(error => console.error('Error fetching card posts:', error));
-</script>
 
+  // Fetch and display posts for the carousel
+  fetch(`https://artportfolio.atwebpages.com/wp-json/wp/v2/posts?categories=${carouselCategoryId}`)
+    .then(response => response.json())
+    .then(data => {
+      let carouselInner = document.querySelector('.carousel-inner');
+      let carouselIndicators = document.querySelector('.carousel-indicators');
+      carouselInner.innerHTML = ''; // Clear existing carousel items
+      carouselIndicators.innerHTML = ''; // Clear existing indicators
+
+      data.forEach((post, index) => {
+        let activeClass = index === 0 ? 'active' : ''; // Set the first item as active
+        let featuredImageUrl = post.featured_media_url; // Use the featured image URL
+        let postTitle = post.title.rendered;
+
+        // Add carousel item (image slide)
+        let carouselItem = `
+          <div class="carousel-item ${activeClass}">
+            <img src="${featuredImageUrl}" class="d-block w-100" alt="${postTitle}">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>${postTitle}</h5>
+            </div>
+          </div>
+        `;
+        carouselInner.innerHTML += carouselItem;
+
+        // Add carousel indicator (dot)
+        let indicator = `
+          <button type="button" data-bs-target="#carouselExampleIndicators" 
+                  data-bs-slide-to="${index}" 
+                  class="${activeClass}" 
+                  aria-current="${index === 0 ? 'true' : 'false'}" 
+                  aria-label="Slide ${index + 1}">
+          </button>
+        `;
+        carouselIndicators.innerHTML += indicator;
+      });
+    })
+    .catch(error => console.error('Error fetching carousel posts:', error));
+</script>
 
 
  </body>
