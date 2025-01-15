@@ -1,6 +1,6 @@
 async function fetchPosts() {
     try {
-      const response = await fetch('https://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed');
+      const response = await fetch('http://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed');
       const posts = await response.json();
   
       let postsHtml = '';
