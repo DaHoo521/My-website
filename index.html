@@ -175,9 +175,17 @@
         `;
         carouselIndicators.innerHTML += indicator;
       });
+
+      // Disable auto-sliding for the carousel
+      var myCarousel = document.querySelector('#carouselExampleIndicators');
+      var carousel = new bootstrap.Carousel(myCarousel, {
+        interval: false, // Disable auto-slide
+        ride: false // Prevent auto-start
+      });
     })
     .catch(error => console.error('Error fetching carousel posts:', error));
 </script>
+
 
  </body>
 </html>
