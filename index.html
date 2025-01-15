@@ -94,47 +94,61 @@
   </script> 
   
 <script>
- fetch('https://artportfolio.atwebpages.com/wp-json/wp/v2/posts')
-  .then(response => response.json())
-  .then(data => {
-    let cardContainer = document.getElementById('card-container');
-    cardContainer.innerHTML = ''; // Clear existing content
-    
-    // Check if there's at least one post
-    if (data.length > 0) {
-      // Display the first post with full content
-      let firstPost = data[0];
-      let firstPostContent = firstPost.content.rendered; // Use full content
-      let firstPostHtml = `
-        <div class="mb-5 text-center">
-          <h3 class="text-primary">${firstPost.title.rendered}</h3>
-          <div style="text-align: center;">
-            ${firstPostContent}
+  // Replace 'YOUR_FEATURED_CATEGORY_ID' and 'YOUR_CARDS_CATEGORY_ID' with actual category IDs
+  const featuredCategoryId = 4; // Featured post category ID
+  const cardsCategoryId = 1; // Cards category ID
+
+  // Fetch and display the featured post
+  fetch(`https://yourname.atwebpages.com/wp-json/wp/v2/posts?categories=${featuredCategoryId}&per_page=1`)
+    .then(response => response.json())
+    .then(data => {
+      let cardContainer = document.getElementById('card-container');
+      
+      if (data.length > 0) {
+        let featuredPost = data[0];
+        let featuredContent = featuredPost.content.rendered;
+        let featuredImage = featuredPost.featured_media_url;
+        
+        let featuredHtml = `
+          <div class="mb-5 text-center">
+            <h3 class="text-primary">${featuredPost.title.rendered}</h3>
+            <img src="${featuredImage}" alt="${featuredPost.title.rendered}" class="img-fluid my-3">
+            <div>${featuredContent}</div>
           </div>
-        </div>
-      `;
-      cardContainer.innerHTML += firstPostHtml;
-    }
-    
-    // Display the remaining posts as cards
-    data.slice(1).forEach(post => {
-      let excerpt = post.excerpt.rendered.replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
-      let card = `
-        <div class="col-md-4 d-flex align-items-stretch">
-          <div class="card mb-4 shadow-lg border-0">
-            <img src="${post.featured_media_url}" class="card-img-top rounded-top" alt="${post.title.rendered}">
-            <div class="card-body">
-              <h5 class="card-title text-primary">${post.title.rendered}</h5>
-              <p class="card-text">${excerpt.substring(0, 100)}...</p>
+        `;
+        
+        cardContainer.innerHTML += featuredHtml;
+      }
+    })
+    .catch(error => console.error('Error fetching featured post:', error));
+
+  // Fetch and display the remaining posts as cards
+  fetch(`https://yourname.atwebpages.com/wp-json/wp/v2/posts?categories=${cardsCategoryId}`)
+    .then(response => response.json())
+    .then(data => {
+      let cardContainer = document.getElementById('card-container');
+      
+      data.forEach(post => {
+        let excerpt = post.excerpt.rendered.replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
+        
+        let card = `
+          <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card mb-4 shadow-lg border-0">
+              <img src="${post.featured_media_url}" class="card-img-top rounded-top" alt="${post.title.rendered}">
+              <div class="card-body">
+                <h5 class="card-title text-primary">${post.title.rendered}</h5>
+                <p class="card-text">${excerpt.substring(0, 100)}...</p>
+              </div>
             </div>
           </div>
-        </div>
-      `;
-      cardContainer.innerHTML += card;
-    });
-  })
-  .catch(error => console.error('Error fetching data:', error));
+        `;
+        
+        cardContainer.innerHTML += card;
+      });
+    })
+    .catch(error => console.error('Error fetching card posts:', error));
 </script>
+
 
 
  </body>
