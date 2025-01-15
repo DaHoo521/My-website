@@ -2,7 +2,7 @@ async function fetchPosts() {
   try {
     // Use your Vercel CORS proxy to fetch data from the WordPress REST API
     const response = await fetch(
-      'https://cors-proxy-eerucsfdo-normans-projects-5f26c8a0.vercel.app?url=' + 
+      'https://cors-proxy-hs6reczjn-normans-projects-5f26c8a0.vercel.app?url=' + 
       encodeURIComponent('https://artportfolio.infy.uk/wp-json/wp/v2/posts?_embed')
     );
 
