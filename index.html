@@ -88,18 +88,18 @@
     
     // Check if there's at least one post
     if (data.length > 0) {
-      // Display the first post as a centered paragraph
+      // Display the first post with full content
       let firstPost = data[0];
-      let firstPostExcerpt = firstPost.excerpt.rendered.replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
-      let firstPostContent = `
+      let firstPostContent = firstPost.content.rendered; // Use full content
+      let firstPostHtml = `
         <div class="mb-5 text-center">
           <h3 class="text-primary">${firstPost.title.rendered}</h3>
           <div style="text-align: center;">
-            <p class="text-muted">${firstPostExcerpt}</p>
+            ${firstPostContent}
           </div>
         </div>
       `;
-      cardContainer.innerHTML += firstPostContent;
+      cardContainer.innerHTML += firstPostHtml;
     }
     
     // Display the remaining posts as cards
@@ -121,6 +121,7 @@
   })
   .catch(error => console.error('Error fetching data:', error));
 </script>
+
 
 
  </body>
