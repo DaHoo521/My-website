@@ -112,7 +112,6 @@
             <div class="card-body">
               <h5 class="card-title text-primary">${post.title.rendered}</h5>
               <p class="card-text">${excerpt.substring(0, 100)}...</p>
-              <a href="${post.link}" class="btn btn-outline-primary">Read More</a>
             </div>
           </div>
         </div>
@@ -122,6 +121,7 @@
   })
   .catch(error => console.error('Error fetching data:', error));
 </script>
+
 
  </body>
 </html>
